@@ -1,0 +1,52 @@
+//based on next greater element
+
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+         stack<int>s;
+       vector<int>v;
+     
+     vector< pair<int,int>>u;//kyunki pair ko aise numerical value se access nahi kia ja sakta hai
+       int n=temperatures.size();
+       for(int i=0;i<n;i++)
+       {
+          
+         u.push_back({temperatures[i],i});
+       }
+      
+       for(int i=n-1;i>=0;i--)//peeche se start karenge
+       {
+           if(s.size()==0)//jo last element hota hai uske liy hamesha -1 kyunki usse bda hota hi nahi hai
+           v.push_back(0);
+           else if(s.size()>0&&temperatures[s.top()]>temperatures[i])
+           v.push_back(u[s.top()].second-i);
+           
+           else if(s.size()>0&&temperatures[s.top()]<=temperatures[i])
+           {
+               while(s.size()>0&&temperatures[s.top()]<=temperatures[i])
+               {
+               s.pop();}//tab takj pop karenge jab tak size 0 na ho jaaae ya greater element na mill jae
+               if(s.size()==0)
+               v.push_back(0);
+               else
+                v.push_back(u[s.top()].second-i);
+           
+               
+           }
+           s.push(i);//after checking element ko push karna stack me taaki adarr jo peeche ke elements hai vo check kr sake
+       }
+       reverse(v.begin(),v.end());
+      return v; 
+        
+    }
+
+
+Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
+
+ 
+//cant use map instead of pair kyunkii usme element repeat karega to vo usko 1 hi baar lega
+Example 1:
+
+Input: temperatures = [73,74,75,71,69,72,76,73]
+Output: [1,1,4,2,1,1,0,0]
+};
