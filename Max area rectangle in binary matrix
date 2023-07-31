@@ -1,0 +1,91 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+#define MAX 1000
+
+
+// } Driver Code Ends
+/*You are required to complete this method*/
+
+class Solution{
+  public:
+
+    int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size();
+        if (n == 0)
+            return 0;
+
+        stack<int> s;
+        vector<int> left(n), right(n);
+
+        // Find the indices of the first smaller element on the left of each element
+        for (int i = 0; i < n; i++) {
+            while (!s.empty() && heights[s.top()] >= heights[i]) {
+                s.pop();
+            }
+            left[i] = s.empty() ? -1 : s.top();
+            s.push(i);
+        }
+
+        while (!s.empty()) s.pop();
+
+        // Find the indices of the first smaller element on the right of each element
+        for (int i = n - 1; i >= 0; i--) {
+            while (!s.empty() && heights[s.top()] >= heights[i]) {
+                s.pop();
+            }
+            right[i] = s.empty() ? n : s.top();
+            s.push(i);
+        }
+
+        int maxArea = 0;
+        for (int i = 0; i < n; i++) {
+            int width = right[i] - left[i] - 1;
+            int area = heights[i] * width;
+            maxArea = max(maxArea, area);
+        }
+
+        return maxArea;
+    }
+
+    int maxArea(int M[MAX][MAX], int n, int m) {
+        vector<int> heights(m, 0);
+        int maxArea = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (M[i][j] == 0) {
+                    heights[j] = 0;
+                } else {
+                    heights[j] += M[i][j];
+                }
+            }
+            maxArea = max(maxArea, largestRectangleArea(heights));
+        }
+
+        return maxArea;
+    }
+};
+
+
+Given a binary matrix M of size n X m. Find the maximum area of a rectangle formed only of 1s in the given matrix.
+
+Example 1:
+
+Input:
+n = 4, m = 4
+M[][] = {{0 1 1 0},
+         {1 1 1 1},
+         {1 1 1 1},
+         {1 1 0 0}}
+Output: 8
+Explanation: For the above test case the
+matrix will look like
+0 1 1 0
+1 1 1 1
+1 1 1 1
+1 1 0 0
+the max size rectangle is 
+1 1 1 1
+1 1 1 1
+and area is 4 *2 = 8.
