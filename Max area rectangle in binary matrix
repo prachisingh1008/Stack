@@ -54,10 +54,10 @@ class Solution{
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                if (M[i][j] == 0) {
+                if (M[i][j] == 0) {//agarr neeche side me 0 aa hgy ato matlab base hi nahi hai to poora 0 ho jaaega
                     heights[j] = 0;
                 } else {
-                    heights[j] += M[i][j];
+                    heights[j] += M[i][j];//rowwise 1 , 1karke array le rahe hai or add krr rahe hai to make the building
                 }
             }
             maxArea = max(maxArea, largestRectangleArea(heights));
