@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+      // int j=0;
+       int n=height.size();
+        vector<int>vi(n);//it will store max length of building towards left
+       vector<int>v(n);//towards right
+v[0]=height[0];
+       for(int i=1;i<n;i++)
+       {
+if(v[i-1]>height[i])//to get maximum length of building towards left
+v[i]=v[i-1];
+else
+v[i]=height[i];
+
+
+       }
+       //int k=n-1;
+      vi[n-1]=height[n-1];
+        for(int i= n-2;i>=0;i--)
+       {
+if(vi[i+1]>height[i])
+vi[i]=vi[i+1];
+else
+vi[i]=height[i];
+
+
+       }
+      
+       int sum=0;
+       for(int i=0;i<n;i++)
+       cout<<v[i]<<vi[i]<<" ";
+       for(int i=0;i<n;i++)
+       {
+           sum+=min(v[i],vi[i])-height[i];
+       }
+       return sum;
+       
+    }
+};
