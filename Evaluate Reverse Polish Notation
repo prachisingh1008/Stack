@@ -4,7 +4,7 @@ public:
     int evalRPN(vector<string>& tokens) {
         stack<int> s;
         for (auto x : tokens) {
-            if (x == "+" || x == "-" || x == "/" || x == "*") {
+            if (x == "+" || x == "-" || x == "/" || x == "*") {// S = "231*+9-" agsr is type ka string hai to single quote use karo
                 int op2 = s.top(); s.pop();
                 int op1 = s.top(); s.pop();
 
@@ -24,7 +24,7 @@ public:
                     }
                 }
             } else {
-                s.push(stoi(x)); // Convert the string to an integer and push it onto the stack
+                s.push(stoi(x)); // Convert the string to an integer and push it onto the stack or conversion of char to in ke liy x-'0' karo
             }
         }
 
