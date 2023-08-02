@@ -1,0 +1,85 @@
+//{ Driver Code Starts
+// C++ implementation to convert infix expression to postfix
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution {
+  public:
+  int precedence(char op) {
+    // Define operator precedence
+    unordered_map<char, int> prec;
+    prec['+'] = 1;
+    prec['-'] = 1;
+    prec['*'] = 2;
+    prec['/'] = 2;
+     prec['^'] = 3;
+    return prec[op];
+}
+    // Function to convert an infix expression to a postfix expression.
+    string infixToPostfix(string s) {
+        // Your code here
+         string postfix;
+    stack<char> operators;
+
+    for (char ch : s) {
+        if (isdigit(ch) || isalpha(ch)) {
+            // If the character is an operand, add it to the postfix expression.
+            postfix.push_back(ch);
+        } else if (ch == '(') {
+            // If the character is an opening parenthesis, push it onto the stack.
+            operators.push(ch);
+        } else if (ch == ')') {
+            // If the character is a closing parenthesis, pop operators from the stack
+            // and add them to the postfix expression until an opening parenthesis is encountered.
+            while (!operators.empty() && operators.top() != '(') {
+                postfix.push_back(operators.top());
+                operators.pop();
+            }
+            operators.pop(); // Pop the opening parenthesis.
+        } else {
+            // If the character is an operator, pop operators with higher precedence
+            // from the stack and add them to the postfix expression before pushing the current operator.
+            while (!operators.empty() && operators.top() != '(' && precedence(operators.top()) >= precedence(ch)) {
+                postfix.push_back(operators.top());
+                operators.pop();
+            }
+            operators.push(ch);
+        }
+    }
+
+    // Pop any remaining operators from the stack and add them to the postfix expression.
+    while (!operators.empty()) {
+        postfix.push_back(operators.top());
+        operators.pop();
+    }
+
+    return postfix;
+    }
+};
+
+
+//{ Driver Code Starts.
+// Driver program to test above functions
+int main() {
+    int t;
+    cin >> t;
+    cin.ignore(INT_MAX, '\n');
+    while (t--) {
+        string exp;
+        cin >> exp;
+        Solution ob;
+        cout << ob.infixToPostfix(exp) << endl;
+    }
+    return 0;
+}
+
+// } Driver Code Ends
+
+Input: str = "a+b*(c^d-e)^(f+g*h)-i"
+Output: abcd^e-fgh*+^*+i-
+Explanation:
+After converting the infix expression 
+into postfix expression, the resultant 
+expression will be abcd^e-fgh*+^*+i-
