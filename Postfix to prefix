@@ -1,0 +1,44 @@
+//{ Driver Code Starts
+// Initial Template for C++
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution {
+  public:
+  stack<string>s;
+    string postToPre(string post_exp) {
+        // Write your code here
+         int n = post_exp.length();
+
+        for (int i = 0; i <n; i++) {
+            if (isalpha(post_exp[i]) || isdigit(post_exp[i])) {
+                string operand; //string str = {ch}; 
+operand.push_back(post_exp[i]);//char to string
+              // string operand(1,pre_exp[i]);
+                s.push(operand);
+               // s.push(pre_exp[i]);
+            } else {
+                string op2 = s.top();
+                s.pop();
+                string op1 = s.top();
+                s.pop();
+                char x = post_exp[i];
+                string result = x + op1 +  op2;
+                s.push(result);
+            }
+        }
+
+        return s.top();
+        // Write your code here
+    }
+};
+Input: 
+ABC/-AK/L-*
+Output: 
+*-A/BC-/AKL
+Explanation: 
+The above output is its valid prefix form.
