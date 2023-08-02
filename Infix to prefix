@@ -1,0 +1,51 @@
+//{ Driver Code Starts
+// Initial Template for C++
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution {
+  public:
+  stack<string>s;
+    string preToInfix(string pre_exp) {
+     
+         int n = pre_exp.length();
+
+        for (int i = n - 1; i >= 0; i--) {
+            if (isalpha(pre_exp[i]) || isdigit(pre_exp[i])) {
+                string operand; //string str = {ch}; 
+operand.push_back(pre_exp[i]);
+              // string operand(1,pre_exp[i]);
+                s.push(operand);
+               // s.push(pre_exp[i]);
+            } else {
+                string op1 = s.top();
+                s.pop();
+                string op2 = s.top();
+                s.pop();
+                char x = pre_exp[i];
+                string result = "(" + op1 + x + op2 + ")";
+                s.push(result);
+            }
+        }
+
+        return s.top();
+        // Write your code here
+    }
+};
+
+
+
+
+
+Example 1:
+
+Input: 
+*-A/BC-/AKL
+Output: 
+((A-(B/C))*((A/K)-L))
+Explanation: 
+The above output is its valid infix form.
